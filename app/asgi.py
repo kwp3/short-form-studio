@@ -53,8 +53,9 @@ def get_application() -> FastAPI:
 app = get_application()
 
 # Configures the CORS middleware for the FastAPI app
-cors_allowed_origins_str = os.getenv("CORS_ALLOWED_ORIGINS", "")
-origins = cors_allowed_origins_str.split(",") if cors_allowed_origins_str else ["*"]
+# CORS: default to localhost only. Set CORS_ALLOWED_ORIGINS env var to override.
+cors_allowed_origins_str = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:8501,http://127.0.0.1:8501")
+origins = [o.strip() for o in cors_allowed_origins_str.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -65,7 +66,7 @@ app.add_middleware(
 
 task_dir = utils.task_dir()
 app.mount(
-    "/tasks", StaticFiles(directory=task_dir, html=True, follow_symlink=True), name=""
+    "/tasks", StaticFiles(directory=task_dir, html=True, follow_symlink=False), name=""
 )
 
 public_dir = utils.public_dir()

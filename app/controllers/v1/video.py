@@ -32,9 +32,8 @@ from app.services import state as sm
 from app.services import task as tm
 from app.utils import utils
 
-# Authentication dependency
-# router = new_router(dependencies=[Depends(base.verify_token)])
-router = new_router()
+# Authentication: require x-api-key header matching config.app.api_key
+router = new_router(dependencies=[Depends(base.verify_token)])
 
 _enable_redis = config.app.get("enable_redis", False)
 _redis_host = config.app.get("redis_host", "localhost")
@@ -211,7 +210,8 @@ def upload_bgm_file(request: Request, file: UploadFile = File(...)):
     # check file ext
     if file.filename.endswith("mp3"):
         song_dir = utils.song_dir()
-        save_path = os.path.join(song_dir, file.filename)
+        safe_filename = os.path.basename(file.filename)
+        save_path = os.path.join(song_dir, safe_filename)
         # save file
         with open(save_path, "wb+") as buffer:
             # If the file already exists, it will be overwritten
@@ -257,7 +257,8 @@ def upload_video_material_file(request: Request, file: UploadFile = File(...)):
     allowed_suffixes = ("mp4", "mov", "avi", "flv", "mkv", "jpg", "jpeg", "png")
     if file.filename.endswith(allowed_suffixes):
         local_videos_dir = utils.storage_dir("local_videos", create=True)
-        save_path = os.path.join(local_videos_dir, file.filename)
+        safe_filename = os.path.basename(file.filename)
+        save_path = os.path.join(local_videos_dir, safe_filename)
         # save file
         with open(save_path, "wb+") as buffer:
             # If the file already exists, it will be overwritten
@@ -273,7 +274,9 @@ def upload_video_material_file(request: Request, file: UploadFile = File(...)):
 @router.get("/stream/{file_path:path}")
 async def stream_video(request: Request, file_path: str):
     tasks_dir = utils.task_dir()
-    video_path = os.path.join(tasks_dir, file_path)
+    video_path = os.path.realpath(os.path.join(tasks_dir, file_path))
+    if not video_path.startswith(os.path.realpath(tasks_dir)):
+        raise HttpException(task_id="", status_code=403, message="Access denied: path traversal detected")
     range_header = request.headers.get("Range")
     video_size = os.path.getsize(video_path)
     start, end = 0, video_size - 1
@@ -321,7 +324,9 @@ async def download_video(_: Request, file_path: str):
     :return: video file
     """
     tasks_dir = utils.task_dir()
-    video_path = os.path.join(tasks_dir, file_path)
+    video_path = os.path.realpath(os.path.join(tasks_dir, file_path))
+    if not video_path.startswith(os.path.realpath(tasks_dir)):
+        raise HttpException(task_id="", status_code=403, message="Access denied: path traversal detected")
     file_path = pathlib.Path(video_path)
     filename = file_path.stem
     extension = file_path.suffix

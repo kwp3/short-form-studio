@@ -129,13 +129,18 @@ def get_all_songs():
 
 def open_task_folder(task_id):
     try:
-        sys = platform.system()
+        import subprocess, re
+        # Validate task_id is a UUID to prevent command injection
+        if not re.match(r'^[a-f0-9\-]{36}$', task_id):
+            logger.warning(f"invalid task_id format: {task_id}")
+            return
+        sys_name = platform.system()
         path = os.path.join(root_dir, "storage", "tasks", task_id)
         if os.path.exists(path):
-            if sys == "Windows":
-                os.system(f"start {path}")
-            if sys == "Darwin":
-                os.system(f"open {path}")
+            if sys_name == "Windows":
+                subprocess.run(["explorer", path], check=False)
+            if sys_name == "Darwin":
+                subprocess.run(["open", path], check=False)
     except Exception as e:
         logger.error(e)
 
