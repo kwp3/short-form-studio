@@ -33,6 +33,15 @@ pixabay_api_keys = []
 #   modelscope
 llm_provider = "openai"
 
+########## LiteLLM (Recommended) ##########
+# Modern unified LLM interface — replaces all provider-specific settings above.
+# Set litellm_model and the legacy llm_provider is ignored.
+# See https://docs.litellm.ai/docs/providers for model strings.
+# Examples: "gemini/gemini-2.5-flash-preview", "openai/gpt-4o", "ollama/llama3"
+litellm_model = ""
+llm_api_key = ""
+llm_api_base = ""  # Custom API base URL (optional)
+
 ########## Pollinations AI Settings
 # Visit https://pollinations.ai/ to learn more
 # API Key is optional - leave empty for public access

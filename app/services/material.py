@@ -1,7 +1,6 @@
 import os
 import random
 from typing import List
-from urllib.parse import urlencode
 
 import requests
 from loguru import logger
@@ -11,135 +10,9 @@ from app.config import config
 from app.models.schema import MaterialInfo, VideoAspect, VideoConcatMode
 from app.utils import utils
 
-requested_count = 0
-
-
-def get_api_key(cfg_key: str):
-    api_keys = config.app.get(cfg_key)
-    if not api_keys:
-        raise ValueError(
-            f"\n\n##### {cfg_key} is not set #####\n\nPlease set it in the config.toml file: {config.config_file}\n\n"
-        )
-
-    # if only one key is provided, return it
-    if isinstance(api_keys, str):
-        return api_keys
-
-    global requested_count
-    requested_count += 1
-    return api_keys[requested_count % len(api_keys)]
-
-
-def search_videos_pexels(
-    search_term: str,
-    minimum_duration: int,
-    video_aspect: VideoAspect = VideoAspect.portrait,
-) -> List[MaterialInfo]:
-    aspect = VideoAspect(video_aspect)
-    video_orientation = aspect.name
-    video_width, video_height = aspect.to_resolution()
-    api_key = get_api_key("pexels_api_keys")
-    headers = {
-        "Authorization": api_key,
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-    }
-    # Build URL
-    params = {"query": search_term, "per_page": 20, "orientation": video_orientation}
-    query_url = f"https://api.pexels.com/videos/search?{urlencode(params)}"
-    logger.info(f"searching videos: query={search_term}, orientation={video_orientation}")
-
-    try:
-        r = requests.get(
-            query_url,
-            headers=headers,
-            proxies=config.proxy,
-            timeout=(30, 60),
-        )
-        response = r.json()
-        video_items = []
-        if "videos" not in response:
-            logger.error(f"search videos failed: {response}")
-            return video_items
-        videos = response["videos"]
-        # loop through each video in the result
-        for v in videos:
-            duration = v["duration"]
-            # check if video has desired minimum duration
-            if duration < minimum_duration:
-                continue
-            video_files = v["video_files"]
-            # loop through each url to determine the best quality
-            for video in video_files:
-                w = int(video["width"])
-                h = int(video["height"])
-                if w == video_width and h == video_height:
-                    item = MaterialInfo()
-                    item.provider = "pexels"
-                    item.url = video["link"]
-                    item.duration = duration
-                    video_items.append(item)
-                    break
-        return video_items
-    except Exception as e:
-        logger.error(f"search videos failed: {str(e)}")
-
-    return []
-
-
-def search_videos_pixabay(
-    search_term: str,
-    minimum_duration: int,
-    video_aspect: VideoAspect = VideoAspect.portrait,
-) -> List[MaterialInfo]:
-    aspect = VideoAspect(video_aspect)
-
-    video_width, video_height = aspect.to_resolution()
-
-    api_key = get_api_key("pixabay_api_keys")
-    # Build URL
-    params = {
-        "q": search_term,
-        "video_type": "all",  # Accepted values: "all", "film", "animation"
-        "per_page": 50,
-        "key": api_key,
-    }
-    query_url = f"https://pixabay.com/api/videos/?{urlencode(params)}"
-    logger.info(f"searching videos: query={search_term}, source=pixabay")
-
-    try:
-        r = requests.get(
-            query_url, proxies=config.proxy, timeout=(30, 60)
-        )
-        response = r.json()
-        video_items = []
-        if "hits" not in response:
-            logger.error(f"search videos failed: {response}")
-            return video_items
-        videos = response["hits"]
-        # loop through each video in the result
-        for v in videos:
-            duration = v["duration"]
-            # check if video has desired minimum duration
-            if duration < minimum_duration:
-                continue
-            video_files = v["videos"]
-            # loop through each url to determine the best quality
-            for video_type in video_files:
-                video = video_files[video_type]
-                w = int(video["width"])
-                # h = int(video["height"])
-                if w >= video_width:
-                    item = MaterialInfo()
-                    item.provider = "pixabay"
-                    item.url = video["url"]
-                    item.duration = duration
-                    video_items.append(item)
-                    break
-        return video_items
-    except Exception as e:
-        logger.error(f"search videos failed: {str(e)}")
-
-    return []
+# Import material providers to trigger registration
+import app.providers.material  # noqa: F401
+from app.providers import get_material_provider
 
 
 def save_video(video_url: str, save_dir: str = "") -> str:
@@ -203,12 +76,10 @@ def download_videos(
     valid_video_items = []
     valid_video_urls = []
     found_duration = 0.0
-    search_videos = search_videos_pexels
-    if source == "pixabay":
-        search_videos = search_videos_pixabay
+    provider = get_material_provider(source)
 
     for search_term in search_terms:
-        video_items = search_videos(
+        video_items = provider.search_videos(
             search_term=search_term,
             minimum_duration=max_clip_duration,
             video_aspect=video_aspect,
