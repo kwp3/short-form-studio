@@ -8,8 +8,69 @@ from xml.sax.saxutils import unescape
 import edge_tts
 import requests
 from edge_tts import SubMaker, submaker
-from edge_tts.submaker import mktimestamp
 from loguru import logger
+
+
+def mktimestamp(ns100: int) -> str:
+    """Convert 100-nanosecond ticks to SRT-style timestamp HH:MM:SS.mmm"""
+    ms = int(ns100 / 10000)
+    h, ms = divmod(ms, 3600000)
+    m, ms = divmod(ms, 60000)
+    s, ms = divmod(ms, 1000)
+    return f"{h:02d}:{m:02d}:{s:02d}.{ms:03d}"
+
+
+# ── edge-tts v7 compatibility shim ──────────────────────────────
+# v7 replaced SubMaker.create_sub/.subs/.offset with feed()/.cues.
+# Patch the class so all existing code paths keep working:
+#   - .subs  (mutable list of strings)
+#   - .offset (mutable list of (start, end) tuples in 100ns ticks)
+#   - .append() on both works correctly
+#   - After feed() populates .cues, first read lazily syncs to compat lists
+if not hasattr(SubMaker, "_compat_subs"):
+    _orig_init = SubMaker.__init__
+
+    def _patched_init(self):
+        _orig_init(self)
+        self._compat_subs = []
+        self._compat_offset = []
+        self._synced_from_cues = False
+
+    SubMaker.__init__ = _patched_init
+
+    def _sync_from_cues(self):
+        """Lazily pull data from .cues into compat lists (one-time)."""
+        if not self._synced_from_cues and self.cues:
+            self._compat_subs = [c.content for c in self.cues]
+            self._compat_offset = [
+                (int(c.start.total_seconds() * 1e7), int(c.end.total_seconds() * 1e7))
+                for c in self.cues
+            ]
+            self._synced_from_cues = True
+
+    @property
+    def _subs_prop(self):
+        _sync_from_cues(self)
+        return self._compat_subs
+
+    @_subs_prop.setter
+    def _subs_prop(self, value):
+        self._compat_subs = value
+        self._synced_from_cues = True
+
+    @property
+    def _offset_prop(self):
+        _sync_from_cues(self)
+        return self._compat_offset
+
+    @_offset_prop.setter
+    def _offset_prop(self, value):
+        self._compat_offset = value
+        self._synced_from_cues = True
+
+    SubMaker.subs = _subs_prop
+    SubMaker.offset = _offset_prop
+# ── end shim ────────────────────────────────────────────────────
 from moviepy.video.tools import subtitles
 from moviepy.audio.io.AudioFileClip import AudioFileClip
 
@@ -1184,13 +1245,13 @@ def azure_tts_v1(
                     async for chunk in communicate.stream():
                         if chunk["type"] == "audio":
                             file.write(chunk["data"])
-                        elif chunk["type"] == "WordBoundary":
-                            sub_maker.create_sub(
-                                (chunk["offset"], chunk["duration"]), chunk["text"]
-                            )
+                        elif chunk["type"] in ("WordBoundary", "SentenceBoundary"):
+                            sub_maker.feed(chunk)
                 return sub_maker
 
             sub_maker = asyncio.run(_do())
+            # force compat shim to re-sync from .cues after feed()
+            sub_maker._synced_from_cues = False
             if not sub_maker or not sub_maker.subs:
                 logger.warning("failed, sub_maker is None or sub_maker.subs is None")
                 continue
@@ -1543,11 +1604,9 @@ def gemini_tts(
         # 将音频长度转换为100纳秒单位（与edge_tts兼容）
         audio_duration_100ns = int(audio_duration * 10000000)
         
-        # 使用create_sub方法正确创建字幕项
-        sub_maker.create_sub(
-            (0, audio_duration_100ns), 
-            text
-        )
+        # Populate subtitle data via compat shim (edge-tts v7)
+        sub_maker.subs = [text]
+        sub_maker.offset = [(0, audio_duration_100ns)]
         
         return sub_maker
         
