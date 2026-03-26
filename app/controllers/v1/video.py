@@ -32,7 +32,7 @@ from app.services import state as sm
 from app.services import task as tm
 from app.utils import utils
 
-# 认证依赖项
+# Authentication dependency
 # router = new_router(dependencies=[Depends(base.verify_token)])
 router = new_router()
 
@@ -44,7 +44,7 @@ _redis_password = config.app.get("redis_password", None)
 _max_concurrent_tasks = config.app.get("max_concurrent_tasks", 5)
 
 redis_url = f"redis://:{_redis_password}@{_redis_host}:{_redis_port}/{_redis_db}"
-# 根据配置选择合适的任务管理器
+# Select appropriate task manager based on configuration
 if _enable_redis:
     task_manager = RedisTaskManager(
         max_concurrent_tasks=_max_concurrent_tasks, redis_url=redis_url

@@ -80,12 +80,12 @@ from app.utils import utils
 
 def get_siliconflow_voices() -> list[str]:
     """
-    获取硅基流动的声音列表
+    Get the list of SiliconFlow voices.
 
     Returns:
-        声音列表，格式为 ["siliconflow:FunAudioLLM/CosyVoice2-0.5B:alex", ...]
+        Voice list, format: ["siliconflow:FunAudioLLM/CosyVoice2-0.5B:alex", ...]
     """
-    # 硅基流动的声音列表和对应的性别（用于显示）
+    # SiliconFlow voice list with corresponding gender (for display)
     voices_with_gender = [
         ("FunAudioLLM/CosyVoice2-0.5B", "alex", "Male"),
         ("FunAudioLLM/CosyVoice2-0.5B", "anna", "Female"),
@@ -97,7 +97,7 @@ def get_siliconflow_voices() -> list[str]:
         ("FunAudioLLM/CosyVoice2-0.5B", "diana", "Female"),
     ]
 
-    # 添加siliconflow:前缀，并格式化为显示名称
+    # Add siliconflow: prefix and format as display name
     return [
         f"siliconflow:{model}:{voice}-{gender}"
         for model, voice, gender in voices_with_gender
@@ -106,12 +106,12 @@ def get_siliconflow_voices() -> list[str]:
 
 def get_gemini_voices() -> list[str]:
     """
-    获取Gemini TTS的声音列表
-    
+    Get the list of Gemini TTS voices.
+
     Returns:
-        声音列表，格式为 ["gemini:Zephyr-Female", "gemini:Puck-Male", ...]
+        Voice list, format: ["gemini:Zephyr-Female", "gemini:Puck-Male", ...]
     """
-    # Gemini TTS支持的语音列表
+    # Gemini TTS supported voice list
     voices_with_gender = [
         ("Zephyr", "Female"),
         ("Puck", "Male"), 
@@ -130,7 +130,7 @@ def get_gemini_voices() -> list[str]:
         ("Atlas", "Male"),
     ]
     
-    # 添加gemini:前缀，并格式化为显示名称
+    # Add gemini: prefix and format as display name
     return [
         f"gemini:{voice}-{gender}"
         for voice, gender in voices_with_gender
@@ -139,204 +139,6 @@ def get_gemini_voices() -> list[str]:
 
 def get_all_azure_voices(filter_locals=None) -> list[str]:
     azure_voices_str = """
-Name: af-ZA-AdriNeural
-Gender: Female
-
-Name: af-ZA-WillemNeural
-Gender: Male
-
-Name: am-ET-AmehaNeural
-Gender: Male
-
-Name: am-ET-MekdesNeural
-Gender: Female
-
-Name: ar-AE-FatimaNeural
-Gender: Female
-
-Name: ar-AE-HamdanNeural
-Gender: Male
-
-Name: ar-BH-AliNeural
-Gender: Male
-
-Name: ar-BH-LailaNeural
-Gender: Female
-
-Name: ar-DZ-AminaNeural
-Gender: Female
-
-Name: ar-DZ-IsmaelNeural
-Gender: Male
-
-Name: ar-EG-SalmaNeural
-Gender: Female
-
-Name: ar-EG-ShakirNeural
-Gender: Male
-
-Name: ar-IQ-BasselNeural
-Gender: Male
-
-Name: ar-IQ-RanaNeural
-Gender: Female
-
-Name: ar-JO-SanaNeural
-Gender: Female
-
-Name: ar-JO-TaimNeural
-Gender: Male
-
-Name: ar-KW-FahedNeural
-Gender: Male
-
-Name: ar-KW-NouraNeural
-Gender: Female
-
-Name: ar-LB-LaylaNeural
-Gender: Female
-
-Name: ar-LB-RamiNeural
-Gender: Male
-
-Name: ar-LY-ImanNeural
-Gender: Female
-
-Name: ar-LY-OmarNeural
-Gender: Male
-
-Name: ar-MA-JamalNeural
-Gender: Male
-
-Name: ar-MA-MounaNeural
-Gender: Female
-
-Name: ar-OM-AbdullahNeural
-Gender: Male
-
-Name: ar-OM-AyshaNeural
-Gender: Female
-
-Name: ar-QA-AmalNeural
-Gender: Female
-
-Name: ar-QA-MoazNeural
-Gender: Male
-
-Name: ar-SA-HamedNeural
-Gender: Male
-
-Name: ar-SA-ZariyahNeural
-Gender: Female
-
-Name: ar-SY-AmanyNeural
-Gender: Female
-
-Name: ar-SY-LaithNeural
-Gender: Male
-
-Name: ar-TN-HediNeural
-Gender: Male
-
-Name: ar-TN-ReemNeural
-Gender: Female
-
-Name: ar-YE-MaryamNeural
-Gender: Female
-
-Name: ar-YE-SalehNeural
-Gender: Male
-
-Name: az-AZ-BabekNeural
-Gender: Male
-
-Name: az-AZ-BanuNeural
-Gender: Female
-
-Name: bg-BG-BorislavNeural
-Gender: Male
-
-Name: bg-BG-KalinaNeural
-Gender: Female
-
-Name: bn-BD-NabanitaNeural
-Gender: Female
-
-Name: bn-BD-PradeepNeural
-Gender: Male
-
-Name: bn-IN-BashkarNeural
-Gender: Male
-
-Name: bn-IN-TanishaaNeural
-Gender: Female
-
-Name: bs-BA-GoranNeural
-Gender: Male
-
-Name: bs-BA-VesnaNeural
-Gender: Female
-
-Name: ca-ES-EnricNeural
-Gender: Male
-
-Name: ca-ES-JoanaNeural
-Gender: Female
-
-Name: cs-CZ-AntoninNeural
-Gender: Male
-
-Name: cs-CZ-VlastaNeural
-Gender: Female
-
-Name: cy-GB-AledNeural
-Gender: Male
-
-Name: cy-GB-NiaNeural
-Gender: Female
-
-Name: da-DK-ChristelNeural
-Gender: Female
-
-Name: da-DK-JeppeNeural
-Gender: Male
-
-Name: de-AT-IngridNeural
-Gender: Female
-
-Name: de-AT-JonasNeural
-Gender: Male
-
-Name: de-CH-JanNeural
-Gender: Male
-
-Name: de-CH-LeniNeural
-Gender: Female
-
-Name: de-DE-AmalaNeural
-Gender: Female
-
-Name: de-DE-ConradNeural
-Gender: Male
-
-Name: de-DE-FlorianMultilingualNeural
-Gender: Male
-
-Name: de-DE-KatjaNeural
-Gender: Female
-
-Name: de-DE-KillianNeural
-Gender: Male
-
-Name: de-DE-SeraphinaMultilingualNeural
-Gender: Female
-
-Name: el-GR-AthinaNeural
-Gender: Female
-
-Name: el-GR-NestorasNeural
-Gender: Male
-
 Name: en-AU-NatashaNeural
 Gender: Female
 
@@ -484,47 +286,11 @@ Gender: Female
 Name: es-AR-TomasNeural
 Gender: Male
 
-Name: es-BO-MarceloNeural
-Gender: Male
-
-Name: es-BO-SofiaNeural
-Gender: Female
-
-Name: es-CL-CatalinaNeural
-Gender: Female
-
-Name: es-CL-LorenzoNeural
-Gender: Male
-
 Name: es-CO-GonzaloNeural
 Gender: Male
 
 Name: es-CO-SalomeNeural
 Gender: Female
-
-Name: es-CR-JuanNeural
-Gender: Male
-
-Name: es-CR-MariaNeural
-Gender: Female
-
-Name: es-CU-BelkysNeural
-Gender: Female
-
-Name: es-CU-ManuelNeural
-Gender: Male
-
-Name: es-DO-EmilioNeural
-Gender: Male
-
-Name: es-DO-RamonaNeural
-Gender: Female
-
-Name: es-EC-AndreaNeural
-Gender: Female
-
-Name: es-EC-LuisNeural
-Gender: Male
 
 Name: es-ES-AlvaroNeural
 Gender: Male
@@ -535,576 +301,14 @@ Gender: Female
 Name: es-ES-XimenaNeural
 Gender: Female
 
-Name: es-GQ-JavierNeural
-Gender: Male
-
-Name: es-GQ-TeresaNeural
-Gender: Female
-
-Name: es-GT-AndresNeural
-Gender: Male
-
-Name: es-GT-MartaNeural
-Gender: Female
-
-Name: es-HN-CarlosNeural
-Gender: Male
-
-Name: es-HN-KarlaNeural
-Gender: Female
-
 Name: es-MX-DaliaNeural
 Gender: Female
 
 Name: es-MX-JorgeNeural
 Gender: Male
 
-Name: es-NI-FedericoNeural
-Gender: Male
-
-Name: es-NI-YolandaNeural
-Gender: Female
-
-Name: es-PA-MargaritaNeural
-Gender: Female
-
-Name: es-PA-RobertoNeural
-Gender: Male
-
-Name: es-PE-AlexNeural
-Gender: Male
-
-Name: es-PE-CamilaNeural
-Gender: Female
-
-Name: es-PR-KarinaNeural
-Gender: Female
-
-Name: es-PR-VictorNeural
-Gender: Male
-
-Name: es-PY-MarioNeural
-Gender: Male
-
-Name: es-PY-TaniaNeural
-Gender: Female
-
-Name: es-SV-LorenaNeural
-Gender: Female
-
-Name: es-SV-RodrigoNeural
-Gender: Male
-
 Name: es-US-AlonsoNeural
 Gender: Male
-
-Name: es-US-PalomaNeural
-Gender: Female
-
-Name: es-UY-MateoNeural
-Gender: Male
-
-Name: es-UY-ValentinaNeural
-Gender: Female
-
-Name: es-VE-PaolaNeural
-Gender: Female
-
-Name: es-VE-SebastianNeural
-Gender: Male
-
-Name: et-EE-AnuNeural
-Gender: Female
-
-Name: et-EE-KertNeural
-Gender: Male
-
-Name: fa-IR-DilaraNeural
-Gender: Female
-
-Name: fa-IR-FaridNeural
-Gender: Male
-
-Name: fi-FI-HarriNeural
-Gender: Male
-
-Name: fi-FI-NooraNeural
-Gender: Female
-
-Name: fil-PH-AngeloNeural
-Gender: Male
-
-Name: fil-PH-BlessicaNeural
-Gender: Female
-
-Name: fr-BE-CharlineNeural
-Gender: Female
-
-Name: fr-BE-GerardNeural
-Gender: Male
-
-Name: fr-CA-AntoineNeural
-Gender: Male
-
-Name: fr-CA-JeanNeural
-Gender: Male
-
-Name: fr-CA-SylvieNeural
-Gender: Female
-
-Name: fr-CA-ThierryNeural
-Gender: Male
-
-Name: fr-CH-ArianeNeural
-Gender: Female
-
-Name: fr-CH-FabriceNeural
-Gender: Male
-
-Name: fr-FR-DeniseNeural
-Gender: Female
-
-Name: fr-FR-EloiseNeural
-Gender: Female
-
-Name: fr-FR-HenriNeural
-Gender: Male
-
-Name: fr-FR-RemyMultilingualNeural
-Gender: Male
-
-Name: fr-FR-VivienneMultilingualNeural
-Gender: Female
-
-Name: ga-IE-ColmNeural
-Gender: Male
-
-Name: ga-IE-OrlaNeural
-Gender: Female
-
-Name: gl-ES-RoiNeural
-Gender: Male
-
-Name: gl-ES-SabelaNeural
-Gender: Female
-
-Name: gu-IN-DhwaniNeural
-Gender: Female
-
-Name: gu-IN-NiranjanNeural
-Gender: Male
-
-Name: he-IL-AvriNeural
-Gender: Male
-
-Name: he-IL-HilaNeural
-Gender: Female
-
-Name: hi-IN-MadhurNeural
-Gender: Male
-
-Name: hi-IN-SwaraNeural
-Gender: Female
-
-Name: hr-HR-GabrijelaNeural
-Gender: Female
-
-Name: hr-HR-SreckoNeural
-Gender: Male
-
-Name: hu-HU-NoemiNeural
-Gender: Female
-
-Name: hu-HU-TamasNeural
-Gender: Male
-
-Name: id-ID-ArdiNeural
-Gender: Male
-
-Name: id-ID-GadisNeural
-Gender: Female
-
-Name: is-IS-GudrunNeural
-Gender: Female
-
-Name: is-IS-GunnarNeural
-Gender: Male
-
-Name: it-IT-DiegoNeural
-Gender: Male
-
-Name: it-IT-ElsaNeural
-Gender: Female
-
-Name: it-IT-GiuseppeMultilingualNeural
-Gender: Male
-
-Name: it-IT-IsabellaNeural
-Gender: Female
-
-Name: iu-Cans-CA-SiqiniqNeural
-Gender: Female
-
-Name: iu-Cans-CA-TaqqiqNeural
-Gender: Male
-
-Name: iu-Latn-CA-SiqiniqNeural
-Gender: Female
-
-Name: iu-Latn-CA-TaqqiqNeural
-Gender: Male
-
-Name: ja-JP-KeitaNeural
-Gender: Male
-
-Name: ja-JP-NanamiNeural
-Gender: Female
-
-Name: jv-ID-DimasNeural
-Gender: Male
-
-Name: jv-ID-SitiNeural
-Gender: Female
-
-Name: ka-GE-EkaNeural
-Gender: Female
-
-Name: ka-GE-GiorgiNeural
-Gender: Male
-
-Name: kk-KZ-AigulNeural
-Gender: Female
-
-Name: kk-KZ-DauletNeural
-Gender: Male
-
-Name: km-KH-PisethNeural
-Gender: Male
-
-Name: km-KH-SreymomNeural
-Gender: Female
-
-Name: kn-IN-GaganNeural
-Gender: Male
-
-Name: kn-IN-SapnaNeural
-Gender: Female
-
-Name: ko-KR-HyunsuMultilingualNeural
-Gender: Male
-
-Name: ko-KR-InJoonNeural
-Gender: Male
-
-Name: ko-KR-SunHiNeural
-Gender: Female
-
-Name: lo-LA-ChanthavongNeural
-Gender: Male
-
-Name: lo-LA-KeomanyNeural
-Gender: Female
-
-Name: lt-LT-LeonasNeural
-Gender: Male
-
-Name: lt-LT-OnaNeural
-Gender: Female
-
-Name: lv-LV-EveritaNeural
-Gender: Female
-
-Name: lv-LV-NilsNeural
-Gender: Male
-
-Name: mk-MK-AleksandarNeural
-Gender: Male
-
-Name: mk-MK-MarijaNeural
-Gender: Female
-
-Name: ml-IN-MidhunNeural
-Gender: Male
-
-Name: ml-IN-SobhanaNeural
-Gender: Female
-
-Name: mn-MN-BataaNeural
-Gender: Male
-
-Name: mn-MN-YesuiNeural
-Gender: Female
-
-Name: mr-IN-AarohiNeural
-Gender: Female
-
-Name: mr-IN-ManoharNeural
-Gender: Male
-
-Name: ms-MY-OsmanNeural
-Gender: Male
-
-Name: ms-MY-YasminNeural
-Gender: Female
-
-Name: mt-MT-GraceNeural
-Gender: Female
-
-Name: mt-MT-JosephNeural
-Gender: Male
-
-Name: my-MM-NilarNeural
-Gender: Female
-
-Name: my-MM-ThihaNeural
-Gender: Male
-
-Name: nb-NO-FinnNeural
-Gender: Male
-
-Name: nb-NO-PernilleNeural
-Gender: Female
-
-Name: ne-NP-HemkalaNeural
-Gender: Female
-
-Name: ne-NP-SagarNeural
-Gender: Male
-
-Name: nl-BE-ArnaudNeural
-Gender: Male
-
-Name: nl-BE-DenaNeural
-Gender: Female
-
-Name: nl-NL-ColetteNeural
-Gender: Female
-
-Name: nl-NL-FennaNeural
-Gender: Female
-
-Name: nl-NL-MaartenNeural
-Gender: Male
-
-Name: pl-PL-MarekNeural
-Gender: Male
-
-Name: pl-PL-ZofiaNeural
-Gender: Female
-
-Name: ps-AF-GulNawazNeural
-Gender: Male
-
-Name: ps-AF-LatifaNeural
-Gender: Female
-
-Name: pt-BR-AntonioNeural
-Gender: Male
-
-Name: pt-BR-FranciscaNeural
-Gender: Female
-
-Name: pt-BR-ThalitaMultilingualNeural
-Gender: Female
-
-Name: pt-PT-DuarteNeural
-Gender: Male
-
-Name: pt-PT-RaquelNeural
-Gender: Female
-
-Name: ro-RO-AlinaNeural
-Gender: Female
-
-Name: ro-RO-EmilNeural
-Gender: Male
-
-Name: ru-RU-DmitryNeural
-Gender: Male
-
-Name: ru-RU-SvetlanaNeural
-Gender: Female
-
-Name: si-LK-SameeraNeural
-Gender: Male
-
-Name: si-LK-ThiliniNeural
-Gender: Female
-
-Name: sk-SK-LukasNeural
-Gender: Male
-
-Name: sk-SK-ViktoriaNeural
-Gender: Female
-
-Name: sl-SI-PetraNeural
-Gender: Female
-
-Name: sl-SI-RokNeural
-Gender: Male
-
-Name: so-SO-MuuseNeural
-Gender: Male
-
-Name: so-SO-UbaxNeural
-Gender: Female
-
-Name: sq-AL-AnilaNeural
-Gender: Female
-
-Name: sq-AL-IlirNeural
-Gender: Male
-
-Name: sr-RS-NicholasNeural
-Gender: Male
-
-Name: sr-RS-SophieNeural
-Gender: Female
-
-Name: su-ID-JajangNeural
-Gender: Male
-
-Name: su-ID-TutiNeural
-Gender: Female
-
-Name: sv-SE-MattiasNeural
-Gender: Male
-
-Name: sv-SE-SofieNeural
-Gender: Female
-
-Name: sw-KE-RafikiNeural
-Gender: Male
-
-Name: sw-KE-ZuriNeural
-Gender: Female
-
-Name: sw-TZ-DaudiNeural
-Gender: Male
-
-Name: sw-TZ-RehemaNeural
-Gender: Female
-
-Name: ta-IN-PallaviNeural
-Gender: Female
-
-Name: ta-IN-ValluvarNeural
-Gender: Male
-
-Name: ta-LK-KumarNeural
-Gender: Male
-
-Name: ta-LK-SaranyaNeural
-Gender: Female
-
-Name: ta-MY-KaniNeural
-Gender: Female
-
-Name: ta-MY-SuryaNeural
-Gender: Male
-
-Name: ta-SG-AnbuNeural
-Gender: Male
-
-Name: ta-SG-VenbaNeural
-Gender: Female
-
-Name: te-IN-MohanNeural
-Gender: Male
-
-Name: te-IN-ShrutiNeural
-Gender: Female
-
-Name: th-TH-NiwatNeural
-Gender: Male
-
-Name: th-TH-PremwadeeNeural
-Gender: Female
-
-Name: tr-TR-AhmetNeural
-Gender: Male
-
-Name: tr-TR-EmelNeural
-Gender: Female
-
-Name: uk-UA-OstapNeural
-Gender: Male
-
-Name: uk-UA-PolinaNeural
-Gender: Female
-
-Name: ur-IN-GulNeural
-Gender: Female
-
-Name: ur-IN-SalmanNeural
-Gender: Male
-
-Name: ur-PK-AsadNeural
-Gender: Male
-
-Name: ur-PK-UzmaNeural
-Gender: Female
-
-Name: uz-UZ-MadinaNeural
-Gender: Female
-
-Name: uz-UZ-SardorNeural
-Gender: Male
-
-Name: vi-VN-HoaiMyNeural
-Gender: Female
-
-Name: vi-VN-NamMinhNeural
-Gender: Male
-
-Name: zh-CN-XiaoxiaoNeural
-Gender: Female
-
-Name: zh-CN-XiaoyiNeural
-Gender: Female
-
-Name: zh-CN-YunjianNeural
-Gender: Male
-
-Name: zh-CN-YunxiNeural
-Gender: Male
-
-Name: zh-CN-YunxiaNeural
-Gender: Male
-
-Name: zh-CN-YunyangNeural
-Gender: Male
-
-Name: zh-CN-liaoning-XiaobeiNeural
-Gender: Female
-
-Name: zh-CN-shaanxi-XiaoniNeural
-Gender: Female
-
-Name: zh-HK-HiuGaaiNeural
-Gender: Female
-
-Name: zh-HK-HiuMaanNeural
-Gender: Female
-
-Name: zh-HK-WanLungNeural
-Gender: Male
-
-Name: zh-TW-HsiaoChenNeural
-Gender: Female
-
-Name: zh-TW-HsiaoYuNeural
-Gender: Female
-
-Name: zh-TW-YunJheNeural
-Gender: Male
-
-Name: zu-ZA-ThandoNeural
-Gender: Female
-
-Name: zu-ZA-ThembaNeural
-Gender: Male
-
 
 Name: en-US-AvaMultilingualNeural-V2
 Gender: Female
@@ -1117,30 +321,15 @@ Gender: Female
 
 Name: en-US-BrianMultilingualNeural-V2
 Gender: Male
-
-Name: de-DE-FlorianMultilingualNeural-V2
-Gender: Male
-
-Name: de-DE-SeraphinaMultilingualNeural-V2
-Gender: Female
-
-Name: fr-FR-RemyMultilingualNeural-V2
-Gender: Male
-
-Name: fr-FR-VivienneMultilingualNeural-V2
-Gender: Female
-
-Name: zh-CN-XiaoxiaoMultilingualNeural-V2
-Gender: Female
     """.strip()
     voices = []
-    # 定义正则表达式模式，用于匹配 Name 和 Gender 行
+    # Define regex pattern to match Name and Gender lines
     pattern = re.compile(r"Name:\s*(.+)\s*Gender:\s*(.+)\s*", re.MULTILINE)
-    # 使用正则表达式查找所有匹配项
+    # Find all matches using regex
     matches = pattern.findall(azure_voices_str)
 
     for name, gender in matches:
-        # 应用过滤条件
+        # Apply filter conditions
         if filter_locals and any(
             name.lower().startswith(fl.lower()) for fl in filter_locals
         ):
@@ -1168,12 +357,12 @@ def is_azure_v2_voice(voice_name: str):
 
 
 def is_siliconflow_voice(voice_name: str):
-    """检查是否是硅基流动的声音"""
+    """Check if it is a SiliconFlow voice"""
     return voice_name.startswith("siliconflow:")
 
 
 def is_gemini_voice(voice_name: str):
-    """检查是否是Gemini TTS的声音"""
+    """Check if it is a Gemini TTS voice"""
     return voice_name.startswith("gemini:")
 
 
@@ -1187,15 +376,15 @@ def tts(
     if is_azure_v2_voice(voice_name):
         return azure_tts_v2(text, voice_name, voice_file)
     elif is_siliconflow_voice(voice_name):
-        # 从voice_name中提取模型和声音
-        # 格式: siliconflow:model:voice-Gender
+        # Extract model and voice from voice_name
+        # Format: siliconflow:model:voice-Gender
         parts = voice_name.split(":")
         if len(parts) >= 3:
             model = parts[1]
-            # 移除性别后缀，例如 "alex-Male" -> "alex"
+            # Remove gender suffix, e.g. "alex-Male" -> "alex"
             voice_with_gender = parts[2]
             voice = voice_with_gender.split("-")[0]
-            # 构建完整的voice参数，格式为 "model:voice"
+            # Build full voice parameter, format: "model:voice"
             full_voice = f"{model}:{voice}"
             return siliconflow_tts(
                 text, model, full_voice, voice_rate, voice_file, voice_volume
@@ -1204,11 +393,11 @@ def tts(
             logger.error(f"Invalid siliconflow voice name format: {voice_name}")
             return None
     elif is_gemini_voice(voice_name):
-        # 从voice_name中提取声音名称
-        # 格式: gemini:voice-Gender
+        # Extract voice name from voice_name
+        # Format: gemini:voice-Gender
         parts = voice_name.split(":")
         if len(parts) >= 2:
-            # 移除性别后缀，例如 "Zephyr-Female" -> "Zephyr"
+            # Remove gender suffix, e.g. "Zephyr-Female" -> "Zephyr"
             voice_with_gender = parts[1]
             voice = voice_with_gender.split("-")[0]
             return gemini_tts(text, voice, voice_rate, voice_file, voice_volume)
@@ -1272,18 +461,18 @@ def siliconflow_tts(
     voice_volume: float = 1.0,
 ) -> Union[SubMaker, None]:
     """
-    使用硅基流动的API生成语音
+    Generate speech using the SiliconFlow API.
 
     Args:
-        text: 要转换为语音的文本
-        model: 模型名称，如 "FunAudioLLM/CosyVoice2-0.5B"
-        voice: 声音名称，如 "FunAudioLLM/CosyVoice2-0.5B:alex"
-        voice_rate: 语音速度，范围[0.25, 4.0]
-        voice_file: 输出的音频文件路径
-        voice_volume: 语音音量，范围[0.6, 5.0]，需要转换为硅基流动的增益范围[-10, 10]
+        text: Text to convert to speech
+        model: Model name, e.g. "FunAudioLLM/CosyVoice2-0.5B"
+        voice: Voice name, e.g. "FunAudioLLM/CosyVoice2-0.5B:alex"
+        voice_rate: Speech speed, range [0.25, 4.0]
+        voice_file: Output audio file path
+        voice_volume: Voice volume, range [0.6, 5.0], converted to SiliconFlow gain range [-10, 10]
 
     Returns:
-        SubMaker对象或None
+        SubMaker object or None
     """
     text = text.strip()
     api_key = config.siliconflow.get("api_key", "")
@@ -1292,10 +481,10 @@ def siliconflow_tts(
         logger.error("SiliconFlow API key is not set")
         return None
 
-    # 将voice_volume转换为硅基流动的增益范围
-    # 默认voice_volume为1.0，对应gain为0
+    # Convert voice_volume to SiliconFlow gain range
+    # Default voice_volume is 1.0, corresponding to gain of 0
     gain = voice_volume - 1.0
-    # 确保gain在[-10, 10]范围内
+    # Ensure gain is within [-10, 10] range
     gain = max(-10, min(10, gain))
 
     url = "https://api.siliconflow.cn/v1/audio/speech"
@@ -1313,7 +502,7 @@ def siliconflow_tts(
 
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
 
-    for i in range(3):  # 尝试3次
+    for i in range(3):  # Try 3 times
         try:
             logger.info(
                 f"start siliconflow tts, model: {model}, voice: {voice}, try: {i + 1}"
@@ -1322,31 +511,31 @@ def siliconflow_tts(
             response = requests.post(url, json=payload, headers=headers)
 
             if response.status_code == 200:
-                # 保存音频文件
+                # Save audio file
                 with open(voice_file, "wb") as f:
                     f.write(response.content)
 
-                # 创建一个空的SubMaker对象
+                # Create an empty SubMaker object
                 sub_maker = SubMaker()
 
-                # 获取音频文件的实际长度
+                # Get the actual length of the audio file
                 try:
-                    # 尝试使用moviepy获取音频长度
+                    # Try using moviepy to get audio length
                     from moviepy import AudioFileClip
 
                     audio_clip = AudioFileClip(voice_file)
                     audio_duration = audio_clip.duration
                     audio_clip.close()
 
-                    # 将音频长度转换为100纳秒单位（与edge_tts兼容）
+                    # Convert audio length to 100-nanosecond units (compatible with edge_tts)
                     audio_duration_100ns = int(audio_duration * 10000000)
 
-                    # 使用文本分割来创建更准确的字幕
-                    # 将文本按标点符号分割成句子
+                    # Use text splitting to create more accurate subtitles
+                    # Split text into sentences by punctuation
                     sentences = utils.split_string_by_punctuations(text)
 
                     if sentences:
-                        # 计算每个句子的大致时长（按字符数比例分配）
+                        # Calculate approximate duration for each sentence (proportional to character count)
                         total_chars = sum(len(s) for s in sentences)
                         char_duration = (
                             audio_duration_100ns / total_chars if total_chars > 0 else 0
@@ -1357,28 +546,28 @@ def siliconflow_tts(
                             if not sentence.strip():
                                 continue
 
-                            # 计算当前句子的时长
+                            # Calculate duration of current sentence
                             sentence_chars = len(sentence)
                             sentence_duration = int(sentence_chars * char_duration)
 
-                            # 添加到SubMaker
+                            # Add to SubMaker
                             sub_maker.subs.append(sentence)
                             sub_maker.offset.append(
                                 (current_offset, current_offset + sentence_duration)
                             )
 
-                            # 更新偏移量
+                            # Update offset
                             current_offset += sentence_duration
                     else:
-                        # 如果无法分割，则使用整个文本作为一个字幕
+                        # If splitting fails, use the entire text as one subtitle
                         sub_maker.subs = [text]
                         sub_maker.offset = [(0, audio_duration_100ns)]
 
                 except Exception as e:
                     logger.warning(f"Failed to create accurate subtitles: {str(e)}")
-                    # 回退到简单的字幕
+                    # Fallback to simple subtitle
                     sub_maker.subs = [text]
-                    # 使用音频文件的实际长度，如果无法获取，则假设为10秒
+                    # Use the actual audio file length; if unavailable, assume 10 seconds
                     sub_maker.offset = [
                         (
                             0,
@@ -1504,17 +693,17 @@ def gemini_tts(
     voice_volume: float = 1.0,
 ) -> Union[SubMaker, None]:
     """
-    使用Google Gemini TTS生成语音
-    
+    Generate speech using Google Gemini TTS.
+
     Args:
-        text: 要转换的文本
-        voice_name: 语音名称，如 "Zephyr", "Puck" 等
-        voice_rate: 语音速率（当前未使用）
-        voice_file: 输出音频文件路径
-        voice_volume: 音频音量（当前未使用）
-        
+        text: Text to convert
+        voice_name: Voice name, e.g. "Zephyr", "Puck", etc.
+        voice_rate: Speech rate (currently unused)
+        voice_file: Output audio file path
+        voice_volume: Audio volume (currently unused)
+
     Returns:
-        SubMaker对象或None
+        SubMaker object or None
     """
     import base64
     import json
@@ -1523,7 +712,7 @@ def gemini_tts(
     import google.generativeai as genai
     
     try:
-        # 配置Gemini API
+        # Configure Gemini API
         api_key = config.app.get("gemini_api_key", "")
         if not api_key:
             logger.error("Gemini API key is not set")
@@ -1533,7 +722,7 @@ def gemini_tts(
         
         logger.info(f"start, voice name: {voice_name}, try: 1")
         
-        # 使用Gemini TTS API
+        # Use Gemini TTS API
         model = genai.GenerativeModel("gemini-2.5-flash-preview-tts")
         
         generation_config = {
@@ -1552,12 +741,12 @@ def gemini_tts(
             generation_config=generation_config
         )
         
-        # 检查响应
+        # Check response
         if not response.candidates or not response.candidates[0].content:
             logger.error("No audio content received from Gemini TTS")
             return None
             
-        # 获取音频数据
+        # Get audio data
         audio_data = None
         for part in response.candidates[0].content.parts:
             if hasattr(part, 'inline_data') and part.inline_data:
@@ -1568,40 +757,40 @@ def gemini_tts(
             logger.error("No audio data found in response")
             return None
             
-        # 音频数据已经是原始字节，不需要base64解码
+        # Audio data is already raw bytes, no base64 decoding needed
         if isinstance(audio_data, str):
-            # 如果是字符串，则需要base64解码
+            # If it's a string, base64 decoding is needed
             audio_bytes = base64.b64decode(audio_data)
         else:
-            # 如果已经是字节，直接使用
+            # If already bytes, use directly
             audio_bytes = audio_data
         
-        # 尝试不同的音频格式 - Gemini可能返回不同的格式
+        # Try different audio formats - Gemini may return different formats
         audio_segment = None
         
-        # Gemini返回Linear PCM格式，按照文档参数解析
+        # Gemini returns Linear PCM format, parse according to documentation parameters
         try:
             audio_segment = AudioSegment.from_file(
                 io.BytesIO(audio_bytes), 
                 format="raw",
-                frame_rate=24000,  # Gemini TTS默认采样率
-                channels=1,        # 单声道
+                frame_rate=24000,  # Gemini TTS default sample rate
+                channels=1,        # Mono
                 sample_width=2     # 16-bit
             )
         except Exception as e:
             logger.error(f"Failed to load PCM audio: {e}")
             return None
         
-        # 导出为MP3格式
+        # Export as MP3 format
         audio_segment.export(voice_file, format="mp3")
         
         logger.info(f"completed, output file: {voice_file}")
         
-        # 创建SubMaker对象用于字幕
+        # Create SubMaker object for subtitles
         sub_maker = SubMaker()
-        audio_duration = len(audio_segment) / 1000.0  # 转换为秒
+        audio_duration = len(audio_segment) / 1000.0  # Convert to seconds
         
-        # 将音频长度转换为100纳秒单位（与edge_tts兼容）
+        # Convert audio length to 100-nanosecond units (compatible with edge_tts)
         audio_duration_100ns = int(audio_duration * 10000000)
         
         # Populate subtitle data via compat shim (edge-tts v7)
@@ -1632,10 +821,10 @@ def _format_text(text: str) -> str:
 
 def create_subtitle(sub_maker: submaker.SubMaker, text: str, subtitle_file: str):
     """
-    优化字幕文件
-    1. 将字幕文件按照标点符号分割成多行
-    2. 逐行匹配字幕文件中的文本
-    3. 生成新的字幕文件
+    Optimize subtitle file:
+    1. Split subtitle file into multiple lines by punctuation
+    2. Match text in subtitle file line by line
+    3. Generate new subtitle file
     """
 
     text = _format_text(text)
@@ -1644,7 +833,7 @@ def create_subtitle(sub_maker: submaker.SubMaker, text: str, subtitle_file: str)
         """
         1
         00:00:00,000 --> 00:00:02,360
-        跑步是一项简单易行的运动
+        Running is a simple and easy exercise
         """
         start_t = mktimestamp(start_time).replace(".", ",")
         end_t = mktimestamp(end_time).replace(".", ",")
@@ -1722,7 +911,7 @@ def create_subtitle(sub_maker: submaker.SubMaker, text: str, subtitle_file: str)
 
 def _get_audio_duration_from_submaker(sub_maker: submaker.SubMaker):
     """
-    获取音频时长
+    Get audio duration from SubMaker object.
     """
     if not sub_maker.offset:
         return 0.0
@@ -1730,7 +919,7 @@ def _get_audio_duration_from_submaker(sub_maker: submaker.SubMaker):
 
 def _get_audio_duration_from_mp3(mp3_file: str) -> float:
     """
-    获取MP3音频时长
+    Get MP3 audio duration.
     """
     if not os.path.exists(mp3_file):
         logger.error(f"MP3 file does not exist: {mp3_file}")
@@ -1746,9 +935,9 @@ def _get_audio_duration_from_mp3(mp3_file: str) -> float:
 
 def get_audio_duration( target: Union[str, submaker.SubMaker]) -> float:
     """
-    获取音频时长
-    如果是SubMaker对象，则从SubMaker中获取时长
-    如果是MP3文件，则从MP3文件中获取时长
+    Get audio duration.
+    If target is a SubMaker object, get duration from SubMaker.
+    If target is an MP3 file, get duration from the MP3 file.
     """
     if isinstance(target, submaker.SubMaker):
         return _get_audio_duration_from_submaker(target)
@@ -1772,41 +961,40 @@ if __name__ == "__main__":
 
         voice_names = [
             "zh-CN-XiaoxiaoMultilingualNeural",
-            # 女性
+            # Female
             "zh-CN-XiaoxiaoNeural",
             "zh-CN-XiaoyiNeural",
-            # 男性
+            # Male
             "zh-CN-YunyangNeural",
             "zh-CN-YunxiNeural",
         ]
-        text = """
-        静夜思是唐代诗人李白创作的一首五言古诗。这首诗描绘了诗人在寂静的夜晚，看到窗前的明月，不禁想起远方的家乡和亲人，表达了他对家乡和亲人的深深思念之情。全诗内容是：“床前明月光，疑是地上霜。举头望明月，低头思故乡。”在这短短的四句诗中，诗人通过“明月”和“思故乡”的意象，巧妙地表达了离乡背井人的孤独与哀愁。首句“床前明月光”设景立意，通过明亮的月光引出诗人的遐想；“疑是地上霜”增添了夜晚的寒冷感，加深了诗人的孤寂之情；“举头望明月”和“低头思故乡”则是情感的升华，展现了诗人内心深处的乡愁和对家的渴望。这首诗简洁明快，情感真挚，是中国古典诗歌中非常著名的一首，也深受后人喜爱和推崇。
-            """
+        text = “””
+        Quiet Night Thoughts is a famous five-character ancient poem written by Li Bai, a Tang Dynasty poet. The poem depicts the poet on a quiet night, seeing the bright moon outside his window, and feeling a deep longing for his faraway hometown and loved ones.
+            “””
 
         text = """
         What is the meaning of life? This question has puzzled philosophers, scientists, and thinkers of all kinds for centuries. Throughout history, various cultures and individuals have come up with their interpretations and beliefs around the purpose of life. Some say it's to seek happiness and self-fulfillment, while others believe it's about contributing to the welfare of others and making a positive impact in the world. Despite the myriad of perspectives, one thing remains clear: the meaning of life is a deeply personal concept that varies from one person to another. It's an existential inquiry that encourages us to reflect on our values, desires, and the essence of our existence.
         """
 
         text = """
-               预计未来3天深圳冷空气活动频繁，未来两天持续阴天有小雨，出门带好雨具；
-               10-11日持续阴天有小雨，日温差小，气温在13-17℃之间，体感阴凉；
-               12日天气短暂好转，早晚清凉；
+               Frequent cold air activity is expected over the next 3 days. Overcast skies with light rain for the next two days, bring rain gear when going out.
+               Continued overcast with light rain on the 10th-11th, small daily temperature range, temperatures between 13-17 degrees Celsius, feeling cool.
+               Weather will briefly improve on the 12th, cool mornings and evenings.
                    """
 
         text = "[Opening scene: A sunny day in a suburban neighborhood. A young boy named Alex, around 8 years old, is playing in his front yard with his loyal dog, Buddy.]\n\n[Camera zooms in on Alex as he throws a ball for Buddy to fetch. Buddy excitedly runs after it and brings it back to Alex.]\n\nAlex: Good boy, Buddy! You're the best dog ever!\n\n[Buddy barks happily and wags his tail.]\n\n[As Alex and Buddy continue playing, a series of potential dangers loom nearby, such as a stray dog approaching, a ball rolling towards the street, and a suspicious-looking stranger walking by.]\n\nAlex: Uh oh, Buddy, look out!\n\n[Buddy senses the danger and immediately springs into action. He barks loudly at the stray dog, scaring it away. Then, he rushes to retrieve the ball before it reaches the street and gently nudges it back towards Alex. Finally, he stands protectively between Alex and the stranger, growling softly to warn them away.]\n\nAlex: Wow, Buddy, you're like my superhero!\n\n[Just as Alex and Buddy are about to head inside, they hear a loud crash from a nearby construction site. They rush over to investigate and find a pile of rubble blocking the path of a kitten trapped underneath.]\n\nAlex: Oh no, Buddy, we have to help!\n\n[Buddy barks in agreement and together they work to carefully move the rubble aside, allowing the kitten to escape unharmed. The kitten gratefully nuzzles against Buddy, who responds with a friendly lick.]\n\nAlex: We did it, Buddy! We saved the day again!\n\n[As Alex and Buddy walk home together, the sun begins to set, casting a warm glow over the neighborhood.]\n\nAlex: Thanks for always being there to watch over me, Buddy. You're not just my dog, you're my best friend.\n\n[Buddy barks happily and nuzzles against Alex as they disappear into the sunset, ready to face whatever adventures tomorrow may bring.]\n\n[End scene.]"
 
-        text = "大家好，我是乔哥，一个想帮你把信用卡全部还清的家伙！\n今天我们要聊的是信用卡的取现功能。\n你是不是也曾经因为一时的资金紧张，而拿着信用卡到ATM机取现？如果是，那你得好好看看这个视频了。\n现在都2024年了，我以为现在不会再有人用信用卡取现功能了。前几天一个粉丝发来一张图片，取现1万。\n信用卡取现有三个弊端。\n一，信用卡取现功能代价可不小。会先收取一个取现手续费，比如这个粉丝，取现1万，按2.5%收取手续费，收取了250元。\n二，信用卡正常消费有最长56天的免息期，但取现不享受免息期。从取现那一天开始，每天按照万5收取利息，这个粉丝用了11天，收取了55元利息。\n三，频繁的取现行为，银行会认为你资金紧张，会被标记为高风险用户，影响你的综合评分和额度。\n那么，如果你资金紧张了，该怎么办呢？\n乔哥给你支一招，用破思机摩擦信用卡，只需要少量的手续费，而且还可以享受最长56天的免息期。\n最后，如果你对玩卡感兴趣，可以找乔哥领取一本《卡神秘籍》，用卡过程中遇到任何疑惑，也欢迎找乔哥交流。\n别忘了，关注乔哥，回复用卡技巧，免费领取《2024用卡技巧》，让我们一起成为用卡高手！"
+        text = "Hello everyone, today we are going to talk about credit card cash withdrawal features.\nHave you ever used your credit card at an ATM to withdraw cash due to a temporary financial crunch? If so, you should watch this video.\nCredit card cash withdrawals have three major drawbacks.\nFirst, the cost is not small. There is a cash withdrawal fee, for example, withdrawing 10,000 at 2.5% means a 250 fee.\nSecond, normal credit card purchases enjoy up to 56 days of interest-free period, but cash withdrawals do not. Interest is charged daily from the day of withdrawal.\nThird, frequent cash withdrawals will cause the bank to flag you as a high-risk user, affecting your credit score and credit limit."
 
         text = """
-        2023全年业绩速览
-公司全年累计实现营业收入1476.94亿元，同比增长19.01%，归母净利润747.34亿元，同比增长19.16%。EPS达到59.49元。第四季度单季，营业收入444.25亿元，同比增长20.26%，环比增长31.86%；归母净利润218.58亿元，同比增长19.33%，环比增长29.37%。这一阶段
-的业绩表现不仅突显了公司的增长动力和盈利能力，也反映出公司在竞争激烈的市场环境中保持了良好的发展势头。
-2023年Q4业绩速览
-第四季度，营业收入贡献主要增长点；销售费用高增致盈利能力承压；税金同比上升27%，扰动净利率表现。
-业绩解读
-利润方面，2023全年贵州茅台，>归母净利润增速为19%，其中营业收入正贡献18%，营业成本正贡献百分之一，管理费用正贡献百分之一点四。(注：归母净利润增速值=营业收入增速+各科目贡献，展示贡献/拖累的前四名科目，且要求贡献值/净利润增速>15%)
+        2023 Full Year Performance Overview
+The company achieved cumulative operating revenue of 147.694 billion yuan for the full year, a year-on-year increase of 19.01%, with net profit attributable to shareholders of 74.734 billion yuan, up 19.16% year-on-year. EPS reached 59.49 yuan. In Q4 alone, operating revenue was 44.425 billion yuan, up 20.26% year-on-year and 31.86% quarter-on-quarter.
+2023 Q4 Performance Overview
+In Q4, operating revenue was the main growth driver; high growth in sales expenses put pressure on profitability; taxes rose 27% year-on-year, affecting net profit margin.
+Performance Analysis
+Regarding profits, the full-year 2023 net profit growth rate was 19%, with operating revenue contributing 18% positive growth, operating costs contributing 1%, and management expenses contributing 1.4%.
 """
-        text = "静夜思是唐代诗人李白创作的一首五言古诗。这首诗描绘了诗人在寂静的夜晚，看到窗前的明月，不禁想起远方的家乡和亲人"
+        text = "Quiet Night Thoughts is a famous poem by Li Bai. It depicts the poet on a quiet night, seeing the bright moon and feeling a deep longing for his faraway hometown and loved ones."
 
         text = _format_text(text)
         lines = utils.split_string_by_punctuations(text)

@@ -385,6 +385,7 @@ Generate a script for a video, depending on the subject of the video.
                 logging.error("gpt returned an empty response")
 
             # g4f may return an error message
+            # g4f may return Chinese error "Daily quota exhausted"
             if final_script and "当日额度已消耗完" in final_script:
                 raise ValueError(final_script)
 
@@ -467,7 +468,7 @@ Please note that you must use English for generating video search terms; Chinese
 
 
 if __name__ == "__main__":
-    video_subject = "生命的意义是什么"
+    video_subject = "What is the meaning of life"
     script = generate_script(
         video_subject=video_subject, language="zh-CN", paragraph_number=1
     )
