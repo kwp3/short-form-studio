@@ -4,6 +4,10 @@ video_source = "pexels" # "pexels" or "pixabay"
 # Whether to hide the config panel
 hide_config = false
 
+# Prompt style for script generation: "default", "viral", "educational", "professional"
+# Or use a custom name matching ./prompts/script_{name}.txt
+prompt_style = "default"
+
 # Pexels API Key
 # Register at https://www.pexels.com/api/ to get your API key.
 # You can use multiple keys to avoid rate limits.

@@ -21,6 +21,7 @@ def generate_script(task_id, params):
             video_subject=params.video_subject,
             language=params.video_language,
             paragraph_number=params.paragraph_number,
+            prompt_style=params.prompt_style,
         )
     else:
         logger.debug(f"video script: \n{video_script}")

@@ -518,12 +518,25 @@ with left_panel:
         )
         params.video_language = video_languages[selected_index][1]
 
+        from app.prompts.templates import list_available_styles
+
+        prompt_styles = list_available_styles()
+        selected_style_index = st.selectbox(
+            tr("Prompt Style"),
+            index=0,
+            options=range(len(prompt_styles)),
+            format_func=lambda x: prompt_styles[x].replace("_", " ").title(),
+        )
+        params.prompt_style = prompt_styles[selected_style_index]
+
         if st.button(
             tr("Generate Video Script and Keywords"), key="auto_generate_script"
         ):
             with st.spinner(tr("Generating Video Script and Keywords")):
                 script = llm.generate_script(
-                    video_subject=params.video_subject, language=params.video_language
+                    video_subject=params.video_subject,
+                    language=params.video_language,
+                    prompt_style=params.prompt_style,
                 )
                 terms = llm.generate_terms(params.video_subject, script)
                 if "Error: " in script:

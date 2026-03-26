@@ -104,6 +104,7 @@ class VideoParams(BaseModel):
     stroke_width: float = 1.5
     n_threads: Optional[int] = 2
     paragraph_number: Optional[int] = 1
+    prompt_style: Optional[str] = "default"
 
 
 class SubtitleRequest(BaseModel):
@@ -150,6 +151,7 @@ class VideoScriptParams:
     video_subject: Optional[str] = "Spring flower fields"
     video_language: Optional[str] = ""
     paragraph_number: Optional[int] = 1
+    prompt_style: Optional[str] = "default"
 
 
 class VideoTermsParams:
