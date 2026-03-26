@@ -74,6 +74,7 @@ from app.providers import get_tts_provider
 from app.providers.tts.edge_tts_provider import get_all_azure_voices  # re-export for backward compat
 from app.providers.tts.siliconflow import get_siliconflow_voices  # re-export
 from app.providers.tts.gemini_tts import get_gemini_voices  # re-export
+from app.providers.tts.elevenlabs import get_elevenlabs_voices  # re-export
 
 from moviepy.video.tools import subtitles
 from moviepy.audio.io.AudioFileClip import AudioFileClip
@@ -105,6 +106,11 @@ def is_gemini_voice(voice_name: str):
     return voice_name.startswith("gemini:")
 
 
+def is_elevenlabs_voice(voice_name: str):
+    """Check if it is an ElevenLabs voice"""
+    return voice_name.startswith("elevenlabs:")
+
+
 def _detect_tts_provider(voice_name: str) -> str:
     if is_azure_v2_voice(voice_name):
         return "azure_cognitive"
@@ -112,6 +118,8 @@ def _detect_tts_provider(voice_name: str) -> str:
         return "siliconflow"
     elif is_gemini_voice(voice_name):
         return "gemini"
+    elif is_elevenlabs_voice(voice_name):
+        return "elevenlabs"
     return "edge"
 
 

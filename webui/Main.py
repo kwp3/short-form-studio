@@ -654,6 +654,7 @@ with middle_panel:
             ("azure-tts-v2", "Azure TTS V2"),
             ("siliconflow", "SiliconFlow TTS"),
             ("gemini-tts", "Google Gemini TTS"),
+            ("elevenlabs", "ElevenLabs TTS"),
         ]
 
         # Get saved TTS server, default to v1
@@ -683,6 +684,9 @@ with middle_panel:
         elif selected_tts_server == "gemini-tts":
             # Get Gemini TTS voice list
             filtered_voices = voice.get_gemini_voices()
+        elif selected_tts_server == "elevenlabs":
+            # Get ElevenLabs voice list
+            filtered_voices = voice.get_elevenlabs_voices()
         else:
             # Get Azure voice list
             all_voices = voice.get_all_azure_voices(filter_locals=None)
@@ -825,6 +829,31 @@ with middle_panel:
             )
 
             config.siliconflow["api_key"] = siliconflow_api_key
+
+        # When ElevenLabs is selected, show API key input
+        if selected_tts_server == "elevenlabs" or (
+            voice_name and voice.is_elevenlabs_voice(voice_name)
+        ):
+            saved_elevenlabs_api_key = config.elevenlabs.get("api_key", "")
+
+            elevenlabs_api_key = st.text_input(
+                tr("ElevenLabs API Key"),
+                value=saved_elevenlabs_api_key,
+                type="password",
+                key="elevenlabs_api_key_input",
+            )
+
+            st.info(
+                tr("ElevenLabs TTS Settings")
+                + ":\n"
+                + "- "
+                + tr("Uses character-level alignment for accurate subtitle timing")
+                + "\n"
+                + "- "
+                + tr("Get your API key at https://elevenlabs.io")
+            )
+
+            config.elevenlabs["api_key"] = elevenlabs_api_key
 
         params.voice_volume = st.selectbox(
             tr("Speech Volume"),

@@ -226,6 +226,14 @@ speech_region = ""
 # Get your API key at https://siliconflow.cn
 api_key = ""
 
+[elevenlabs]
+# ElevenLabs API Key
+# Get your API key at https://elevenlabs.io
+api_key = ""
+# Model to use for TTS
+# Options: eleven_multilingual_v2, eleven_turbo_v2_5
+model_id = "eleven_multilingual_v2"
+
 [ui]
 # UI related settings
 # Whether to hide log messages
